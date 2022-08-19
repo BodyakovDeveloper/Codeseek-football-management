@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  mysqldb:
+    container_name: database
+    image: mysql:8.0
+    restart: on-failure
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=codeseek_football_management
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./src/main/resources/initDb.sql:/docker-entrypoint-initdb.d/initDb.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 7s
+      start_period: 6s
+      retries: 10
+  app:
+    container_name: app
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+    build: .
+    restart: on-failure
+    ports:
+      - "8081:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://database:3306/codeseek_football_management
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
