@@ -29,7 +29,7 @@ public class HibernateTeamDao implements TeamDao {
     @Override
     public Optional<Team> findById(Long id) {
         return genericDao.genericRead(session -> {
-            Query query = session.createQuery("from Team where id=:id");
+            Query query = session.createQuery("FROM Team WHERE id=:id");
             query.setParameter("id", id);
             return Optional.ofNullable((Team) query.uniqueResult());
         });

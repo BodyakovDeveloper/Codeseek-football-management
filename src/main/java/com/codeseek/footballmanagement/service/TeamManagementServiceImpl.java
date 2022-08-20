@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -41,18 +42,20 @@ public class TeamManagementServiceImpl implements TeamManagementService {
         if (!isPossibleMakeTransfer(player, sourceTeam, destinationTeam, moneyNeededToMakeTransfer)) {
             throw new TransferFailedException("Impossible to make a transfer");
         }
+        System.out.println(getPlayerPrice(player));
+        System.out.println(getMoneyRequiredToMakeTransfer(getPlayerPrice(player), sourceTeam));
 
         sourceTeam.setMoney(sourceTeam.getMoney().add(getPlayerPrice(player)));
         destinationTeam.setMoney(destinationTeam.getMoney().subtract(moneyNeededToMakeTransfer));
 
         replacePlayerTeam(player, destinationTeam);
-        teamDao.create(sourceTeam);
-        teamDao.create(destinationTeam);
+        teamDao.update(sourceTeam);
+        teamDao.update(destinationTeam);
         writeTransferToTransferHistory(player, sourceTeam, destinationTeam, moneyNeededToMakeTransfer);
     }
 
     private boolean isPossibleMakeTransfer(Player player, Team sourceTeam, Team destinationTeam, BigDecimal moneyToMakeTransferNeeded) {
-        if (!player.getTeam().equals(sourceTeam)) {
+        if (!Objects.equals(player.getTeam().getId(), sourceTeam.getId())) {
             throw new TransferFailedException("The player: " + player.getId() + " is not in the team: " + sourceTeam.getId());
         }
         if (!isTeamHasMoneyForTransfer(destinationTeam, moneyToMakeTransferNeeded)) {

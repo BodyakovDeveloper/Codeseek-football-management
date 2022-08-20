@@ -13,18 +13,6 @@ import java.util.function.Function;
 @Log4j2
 public class GenericDao {
 
-    public <E> void save(E entity) {
-        genericOperation(session -> session.save(entity));
-    }
-
-    public <E> void update(E entity) {
-        genericOperation(session -> session.update(entity));
-    }
-
-    public <E> void remove(E entity) {
-        genericOperation(session -> session.remove(entity));
-    }
-
     public void genericOperation(Consumer<Session> consumer) {
 
         Transaction transaction = null;

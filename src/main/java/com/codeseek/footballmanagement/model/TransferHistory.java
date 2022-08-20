@@ -2,8 +2,9 @@ package com.codeseek.footballmanagement.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +20,8 @@ import javax.validation.constraints.PastOrPresent;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Data
+@Setter
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,7 +34,7 @@ public class TransferHistory {
     private Long id;
 
     @PastOrPresent
-    @Column(nullable = false)
+    @Column(name = "transfer_date", nullable = false)
     private LocalDate transferDate;
 
     @OneToOne
@@ -49,10 +51,10 @@ public class TransferHistory {
 
     @Min(1L)
     @Max(10L)
-    @Column(nullable = false)
+    @Column(name = "tax", nullable = false)
     private float tax;
 
     @Min(1L)
-    @Column(nullable = false)
+    @Column(name = "price_with_tax", nullable = false)
     private BigDecimal priceWithTax;
 }

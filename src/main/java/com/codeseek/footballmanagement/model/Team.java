@@ -54,7 +54,7 @@ public class Team {
 
     @Min(1L)
     @Max(10L)
-    @Column(nullable = false, columnDefinition = "decimal default 3")
+    @Column(name = "transfer_tax" ,nullable = false)
     private float transferTax;
 
     @JsonIgnore

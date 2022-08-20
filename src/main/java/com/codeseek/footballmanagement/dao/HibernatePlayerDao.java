@@ -29,7 +29,7 @@ public class HibernatePlayerDao implements PlayerDao {
     @Override
     public Optional<Player> findById(Long id) {
         return genericDao.genericRead(session -> {
-            Query query = session.createQuery("from Player where id=:id");
+            Query query = session.createQuery("FROM Player WHERE id=:id");
             query.setParameter("id", id);
             return Optional.ofNullable((Player) query.uniqueResult());
         });
@@ -37,6 +37,6 @@ public class HibernatePlayerDao implements PlayerDao {
 
     @SuppressWarnings("unchecked")
     public List<Player> findAllPlayers() {
-        return (List<Player>) genericDao.genericRead(session -> session.createQuery("From Player ").list());
+        return (List<Player>) genericDao.genericRead(session -> session.createQuery("FROM Player ").list());
     }
 }

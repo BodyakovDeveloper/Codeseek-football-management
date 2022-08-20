@@ -26,8 +26,8 @@ public class TeamController {
 
     @GetMapping
     @ResponseBody
-    public List<Team> getTeams() {
-        return teamService.getAllTeams();
+    public ResponseEntity<List<Team>> getTeams() {
+        return ResponseEntity.ok().body(teamService.getAllTeams());
     }
 
     @GetMapping("/{teamId}")

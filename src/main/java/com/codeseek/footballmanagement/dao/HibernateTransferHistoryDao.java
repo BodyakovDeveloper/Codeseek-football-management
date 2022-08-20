@@ -32,7 +32,7 @@ public class HibernateTransferHistoryDao implements TransferHistoryDao {
     @Override
     public Optional<TransferHistory> findById(Long id) {
         return genericDao.genericRead(session -> {
-            Query query = session.createQuery("from TransferHistory where id=:id");
+            Query query = session.createQuery("FROM TransferHistory WHERE id=:id");
             query.setParameter("id", id);
             return Optional.ofNullable((TransferHistory) query.uniqueResult());
         });
@@ -40,6 +40,6 @@ public class HibernateTransferHistoryDao implements TransferHistoryDao {
 
     @SuppressWarnings("unchecked")
     public List<TransferHistory> getTransferHistory() {
-        return genericDao.genericRead(session -> (List<TransferHistory>) session.createQuery("FROM TransferHistory ").list());
+        return genericDao.genericRead(session -> (List<TransferHistory>) session.createQuery("FROM TransferHistory").list());
     }
 }

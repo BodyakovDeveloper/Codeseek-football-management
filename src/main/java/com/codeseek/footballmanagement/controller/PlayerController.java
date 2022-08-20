@@ -28,8 +28,8 @@ public class PlayerController {
     private final TeamService teamService;
 
     @GetMapping
-    public List<Player> getPlayers() {
-        return playerService.getAllPlayers();
+    public ResponseEntity<List<Player>> getPlayers() {
+        return ResponseEntity.ok().body(playerService.getAllPlayers());
     }
 
     @GetMapping("/{playerId}")
@@ -46,10 +46,14 @@ public class PlayerController {
     }
 
     @PutMapping("/{playerId}")
-    public ResponseEntity<String> updatePlayer(@PathVariable Long playerId, @Valid @RequestBody Player player) {
-        System.out.println(player.getTeam());
+    public ResponseEntity<String> updatePlayer(@PathVariable Long playerId, @Valid @RequestBody Player player,
+                                               @RequestParam(required = false) Long teamId) {
+        if (teamId != null) {
+            Team newTeam = teamService.getTeamById(teamId);
+            player.setTeam(newTeam);
+        }
         playerService.updatePlayer(playerId, player);
-        return ResponseEntity.ok("Updated successfully");
+        return ResponseEntity.ok().body("Updated successfully");
     }
 
     @DeleteMapping("/{playerId}")

@@ -30,9 +30,9 @@ public class FootballManagementUtil {
                 valueOf(team.getTransferTax())
         );
 
-        transferTax = transferTax
+        transferTax = price
                 .divide(ONE_HUNDRED, RoundingMode.HALF_UP)
-                .multiply(price);
+                .multiply(transferTax);
 
         return price.add(transferTax);
     }
